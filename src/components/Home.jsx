@@ -8,7 +8,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_LOCAL_URI}/getRecent`
+        `${import.meta.env.VITE_SERVER_URI}/getRecent`
       );
       console.log("response ",response)
       setRDate(response.data)
@@ -25,7 +25,7 @@ const Home = () => {
     fetchData();
 
     // Connect to the SSE endpoint
-    const eventSource = new EventSource(`${import.meta.env.VITE_LOCAL_URI}/sse`);
+    const eventSource = new EventSource(`${import.meta.env.VITE_SERVER_URI}/sse`);
     eventSource.onmessage = (event) => {
       console.log("30 ",event, event.data)
       const newData = JSON.parse(event.data);
