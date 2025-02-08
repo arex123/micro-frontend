@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 
 const Home = () => {
   const [rDate, setRDate] = useState();
+  const [load,setLoad]=useState(false)
 
   const [state, setState] = useState(0);
   const fetchData = async () => {
@@ -22,9 +23,12 @@ const Home = () => {
   };
 
   const sendData = (newValue) => {
+    setLoad(true)
     axios.post(`${import.meta.env.VITE_SERVER_URI}/save`, { value: newValue })
       .then(() => setState(newValue))
       .catch((err) => console.error(err));
+
+      setLoad(false)
   };
 
 
@@ -100,10 +104,11 @@ const Home = () => {
         </div>
 
         <div className="flex gap-10">
-          <Button label="Primary" onClick={() => sendData(1)} />
+          <Button label="Turn on" onClick={() => sendData(1)} disabled={state==1 || load==true}/>
           <Button
-            label="Danger"
+            label="Turn Off"
             severity="danger"
+            disabled={state==0 || load==true}
             onClick={() => sendData(0)}
           />
         </div>
